@@ -10,7 +10,6 @@ namespace FluentEating
 {
     public class ModEntry : Mod
     {
-
         private ModConfig _config;
         private enum EatingPriority { Health, Stamina };
         private bool _ateFluently = false;
