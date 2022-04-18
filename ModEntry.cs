@@ -184,7 +184,7 @@ namespace FluentEating
                 var consumable = new Consumable(@object);
 
                 if (!consumable.HasBuff)
-                    return;
+                    continue;
 
                 if (firstBuffingFood is null && consumable.Type == Consumable.ItemType.Food)
                     firstBuffingFood = @object;
