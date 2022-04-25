@@ -147,9 +147,9 @@ namespace FluentEating
 
             EatingPriority priority;
 
-            if (Game1.player.health <= _config.AutoEatHealthThreshold)
+            if (Math.Floor((double)Game1.player.health) <= _config.AutoEatHealthThreshold)
                 priority = EatingPriority.Health;
-            else if (Game1.player.stamina <= _config.AutoEatStaminaThreshold)
+            else if (Math.Floor((double)Game1.player.stamina) <= _config.AutoEatStaminaThreshold)
                 priority = EatingPriority.Stamina;
             else return;
 
