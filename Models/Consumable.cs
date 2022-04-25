@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using StardewValley;
 using SDVObject = StardewValley.Object;
@@ -45,30 +46,29 @@ namespace FluentEating.Models
             // parse whether object has buff or not
             if (_objectInfo.Count > 7)
             {
-                if (!_objectInfo[7].Equals("0 0 0 0 0 0 0 0 0 0 0"))
+                int[] buffArr = Array.ConvertAll(_objectInfo[7].Split(' '), Convert.ToInt32);
+
+                if (buffArr.Sum() != 0)
                 {
                     HasBuff = true;
 
-                    // parse the buff
-                    string[] buffArr = _objectInfo[7].Split(' ');
-                    int minutesDuration = _objectInfo.Count > 8 ? Convert.ToInt32(_objectInfo[8]) : -1;
-
+                    // parse the buffs
                     Buff = new Buff(
-                        Convert.ToInt32(buffArr[0]),
-                        Convert.ToInt32(buffArr[1]),
-                        Convert.ToInt32(buffArr[2]),
-                        Convert.ToInt32(buffArr[3]),
-                        Convert.ToInt32(buffArr[4]),
-                        Convert.ToInt32(buffArr[5]),
-                        Convert.ToInt32(buffArr[6]),
-                        Convert.ToInt32(buffArr[7]),
-                        Convert.ToInt32(buffArr[8]),
-                        Convert.ToInt32(buffArr[9]),
-                        Convert.ToInt32(buffArr[10]),
-                        buffArr.Length > 11 ? Convert.ToInt32(buffArr[11]) : 0,
-                        minutesDuration,
-                        _objectInfo[0],
-                        _objectInfo[4]);
+                        farming         : buffArr[0],
+                        fishing         : buffArr[1],
+                        mining          : buffArr[2],
+                        digging         : buffArr[3],
+                        luck            : buffArr[4],
+                        foraging        : buffArr[5],
+                        crafting        : buffArr[6],
+                        maxStamina      : buffArr[7],
+                        magneticRadius  : buffArr[8],
+                        speed           : buffArr[9],
+                        defense         : buffArr[10],
+                        attack          : buffArr.Length > 11 ? Convert.ToInt32(buffArr[11]) : 0,
+                        minutesDuration : _objectInfo.Count > 8 ? Convert.ToInt32(_objectInfo[8]) : -1,
+                        source          : _objectInfo[0],
+                        displaySource   : _objectInfo[4]);
                 }
             }
         }
