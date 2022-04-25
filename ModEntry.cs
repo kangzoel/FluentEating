@@ -16,6 +16,7 @@ namespace FluentEating
 
         const int _messageID_Eating = 1;
         const int _messageID_ConfigChanged = 2;
+        const int _message_Buffing = 3;
 
         public override void Entry(IModHelper helper)
         {
@@ -201,25 +202,24 @@ namespace FluentEating
             }
 
             if (Game1.buffsDisplay.food is null && firstBuffingFood is not null)
-                Eat(firstBuffingFood);
+                Eat(firstBuffingFood, true);
 
             if (Game1.buffsDisplay.drink is null && firstBuffingDrink is not null)
-                Eat(firstBuffingDrink);
+                Eat(firstBuffingDrink, true);
         }
 
-        private void Eat(Object @object)
+        private void Eat(Object @object, bool buffFood = false)
         {
             if (!Context.CanPlayerMove)
                 return;
 
+            var consumable = new Consumable(@object);
             Farmer player = Game1.player;
 
             if (_config.InstantEat)
             {
                 player.health = Math.Min(player.maxHealth, player.health + @object.healthRecoveredOnConsumption());
                 player.stamina = Math.Min(player.MaxStamina, player.stamina + @object.staminaRecoveredOnConsumption());
-
-                var consumable = new Consumable(@object);
 
                 if (consumable.HasBuff)
                     consumable.ApplyBuff();
@@ -229,7 +229,7 @@ namespace FluentEating
                 Game1.player.eatObject(@object);
             }
 
-            ShowMessage($"You consumed {@object.Name} fluently.", _messageID_Eating);
+            ShowMessage($"You consumed {@object.Name} fluently.", buffFood ? _message_Buffing : _messageID_Eating);
 
             @object.Stack--;
 
