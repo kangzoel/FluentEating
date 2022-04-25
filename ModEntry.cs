@@ -164,7 +164,7 @@ namespace FluentEating
             if (priority switch
             {
                 EatingPriority.Health => Game1.player.health == Game1.player.maxHealth,
-                EatingPriority.Stamina => Game1.player.Stamina == Game1.player.MaxStamina,
+                EatingPriority.Stamina => Game1.player.stamina == Game1.player.MaxStamina,
                 _ => throw new Exception("Eating Priority is Invalid")
             })
                 return;
