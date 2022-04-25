@@ -83,6 +83,13 @@ namespace FluentEating
             configMenu.AddParagraph(
                 mod: ModManifest,
                 text: () => "If enabled, player will eat the first buff food and/or drink (from top-left of the backpack) to maintain their buffs. Otherwise, any buff food won't be eaten.");
+
+            configMenu.AddBoolOption(
+                mod: ModManifest,
+                getValue: () => _config.InstantEat,
+                setValue: value => _config.InstantEat = value,
+                name: () => "Skip Eating Animation");
+
         }
 
         private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
@@ -205,7 +212,17 @@ namespace FluentEating
             if (!Context.CanPlayerMove)
                 return;
 
-            Game1.player.eatObject(@object);
+            Farmer player = Game1.player;
+
+            if (_config.InstantEat)
+            {
+                player.health = Math.Min(player.maxHealth, player.health + @object.healthRecoveredOnConsumption());
+                player.stamina = Math.Min(player.MaxStamina, player.stamina + @object.staminaRecoveredOnConsumption());
+            }
+            else
+            {
+                Game1.player.eatObject(@object);
+            }
 
             ShowMessage($"You consumed {@object.Name} fluently.", _messageID_Eating);
 

@@ -12,5 +12,7 @@ namespace FluentEating.Models
 
         public SButton KeyBind_ToggleMaintainBuff { get; set; } = SButton.F11;
         public bool MaintainBuff { get; set; } = false;
+
+        public bool InstantEat { get; set; } = false;
     }
 }
