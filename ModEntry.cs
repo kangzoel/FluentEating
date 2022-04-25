@@ -218,6 +218,11 @@ namespace FluentEating
             {
                 player.health = Math.Min(player.maxHealth, player.health + @object.healthRecoveredOnConsumption());
                 player.stamina = Math.Min(player.MaxStamina, player.stamina + @object.staminaRecoveredOnConsumption());
+
+                var consumable = new Consumable(@object);
+
+                if (consumable.HasBuff)
+                    consumable.ApplyBuff();
             }
             else
             {
